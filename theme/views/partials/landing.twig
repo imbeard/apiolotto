@@ -1,0 +1,245 @@
+<div class="landing fixed w-full h-full top-0 left-0 z-50">
+	<div id="canvas"></div>
+	<div class="plane">
+		<img
+			data-sampler="texture01"
+			id="texture"
+			src="{{Image(options.immagine_landing).src}}"
+			class="w-full h-full object-cover object-center"
+		/>
+	</div>
+	<div class="flex flex-col absolute top-0 left-0 w-full h-full">
+		<div class="text-entering-top w-full text-center mt-4">
+			<h1 class="mix-blend-difference italic">{{ options.testo_sopra_landing }}</h1>
+		</div>
+
+		<div class="alltags flex-1 relative">
+			<div class="grid lg:grid-cols-4 h-full">
+				{% for tag in archivetags %}
+				<div class="flex relative h-full w-full tagwr order-{{ random(1, loop.length) }}">
+					<div class="absolute singletag opacity-0 mix-blend-difference text-white">
+						<h1 class="">#{{ tag.name }}</h1>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="text-entering-bottom w-full text-center mb-4">
+			<h1 class="mix-blend-difference italic">{{ options.testo_sotto_landing }}</h1>
+		</div>
+	</div>
+</div>
+
+<script>
+	window.onload = () => {
+		const shader = {
+			vertex: `    
+    #ifdef GL_ES
+    precision mediump float;
+    #endif
+    
+    // those are the mandatory attributes that the lib sets
+    attribute vec3 aVertexPosition;
+    attribute vec2 aTextureCoord;
+
+    // those are mandatory uniforms that the lib sets and that contain our model view and projection matrix
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+
+    uniform mat4 texture01Matrix;
+
+    // if you want to pass your vertex and texture coords to the fragment shader
+    varying vec3 vVertexPosition;
+    varying vec2 vTextureCoord;
+
+    void main() {
+        vec3 vertexPosition = aVertexPosition;
+        gl_Position = uPMatrix * uMVMatrix * vec4(vertexPosition, 1.0);
+
+        // set the varyings
+        vTextureCoord = (texture01Matrix * vec4(aTextureCoord, 0., 1.)).xy;
+        vVertexPosition = vertexPosition;
+    }`,
+			fragment: `
+    #ifdef GL_ES
+    precision mediump float;
+    #endif
+
+    #define PI2 6.28318530718
+    #define PI 3.14159265359
+    #define S(a,b,n) smoothstep(a,b,n)
+    #define MAX_ITER 5
+    
+    // get our varyings
+    varying vec3 vVertexPosition;
+    varying vec2 vTextureCoord;
+
+    // the uniform we declared inside our javascript
+    uniform float uTime;
+    uniform vec2 uReso;
+    uniform vec2 uMouse;
+
+    // our texture sampler (default name, to use a different name please refer to the documentation)
+    uniform sampler2D texture01;
+
+    void main() {      
+          vec2 uv = vTextureCoord;  
+          
+          vec2 p = uv * 8.0 - vec2(10.0);
+
+          vec2 i = p;
+
+          float c = 1.;
+          float inten = .3;
+          
+          for (int n = 0; n < MAX_ITER; n++){
+            float t = uTime * (1.0 - (3.0 / float(n+1)));
+            i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
+            c += 1.0/length(vec2(p.x / (sin(i.x + t)/inten),p.y / (cos(i.y + t) / inten)));
+          }
+
+          c /= float(MAX_ITER);
+          c = 1.8 - sqrt(c);
+
+          float dx = uv.y * PI + uTime;
+          float dy = uv.x * PI + uTime;
+
+          vec2 waves = vec2(cos(dx + dy) * 0.05 * cos(dy), sin(dx - dy) * 0.05 * cos(dy));
+
+          vec4 text = texture2D(texture01, uv + waves * .5) * texture2D(texture01, uv + cos(c) - 2.) * .8;
+          //act here
+          vec4 text2 = pow(c, -20.) * text;
+          gl_FragColor = text2 + text * text + vec4(text.rgb, text.a);
+    }
+    `,
+		};
+
+		// get our canvas wrapper
+		const canvasContainer = document.getElementById('canvas');
+		const mouse = {
+			x: 0,
+			y: 0,
+		};
+		// set up our WebGL context and append the canvas to our wrapper
+		const curtains = new Curtains({
+			container: 'canvas',
+		});
+
+		// get our plane element
+		const planeElement = document.getElementsByClassName('plane')[0];
+
+		// set our initial parameters (basic uniforms)
+		const params = {
+			vertexShader: shader.vertex, // our vertex shader ID
+			fragmentShader: shader.fragment, // our framgent shader ID
+			widthSegments: 40,
+			heightSegments: 40, // we now have 40*40*6 = 9600 vertices !
+			uniforms: {
+				time: {
+					name: 'uTime', // uniform name that will be passed to our shaders
+					type: '1f', // this means our uniform is a float
+					value: 0,
+				},
+				mousepos: {
+					name: 'uMouse',
+					type: '2f',
+					value: [mouse.x, mouse.y],
+				},
+				resolution: {
+					name: 'uReso',
+					type: '2f',
+					value: [innerWidth, innerHeight],
+				},
+			},
+		};
+
+		// create our plane mesh
+		const plane = new Plane(curtains, planeElement, params);
+		// use the onRender method of our plane fired at each requestAnimationFrame call
+		plane.onRender(() => {
+			plane.uniforms.time.value += 0.01; // update our time uniform value
+
+			plane.uniforms.resolution.value = [innerWidth, innerHeight];
+		});
+
+		canvasContainer.addEventListener('mousemove', ({ clientX, clientY }) => {
+			mouse.x = clientX;
+			mouse.y = clientY;
+
+			plane.uniforms.mousepos.value = [mouse.x, mouse.y];
+		});
+
+		const tags = document.querySelectorAll('.singletag');
+
+
+			for (const [index, tag] of tags.entries()) {
+				tag.style.top = Math.floor((Math.random() * document.querySelector('.tagwr').clientHeight / 2) ) + 'px';
+				tag.style.left = Math.floor((Math.random() * document.querySelector('.tagwr').clientWidth / 2)) + 'px';
+
+			}
+			
+
+
+
+
+		const sequence = [
+			['.text-entering-top h1', { y: [-300, 0] }, { duration: 0.5, easing: [0.165, 0.84, 0.44, 1] }],
+			['.text-entering-bottom h1', { y: [300, 0] }, { duration: 0.5, at: 0, easing: [0.165, 0.84, 0.44, 1] }],
+			['.singletag', { opacity: [0, 1] }, { duration: 0.5, delay: stagger(0.6), at: 1, easing: 'linear' }],
+		];
+		timeline(sequence, { delay: 2 });
+	};
+</script>
+
+<style>
+	#canvas {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+	.plane {
+		width: 100%;
+		height: 100%;
+	}
+	.plane img {
+		display: none;
+	}
+	.text-entering-top h1 {
+		color: #fff;
+	}
+	.text-entering-bottom h1 {
+		color: #fff;
+	}
+	.tagwr.order-1{
+		order:1
+	}
+	.tagwr.order-2{
+		order:2
+	}
+	.tagwr.order-3{
+		order:3
+	}
+	.tagwr.order-4{
+		order:4
+	}
+	.tagwr.order-5{
+		order:5
+	}
+	.tagwr.order-6{
+		order:6
+	}
+	.tagwr.order-7{
+		order:7
+	}
+	.tagwr.order-8{
+		order:8
+	}
+
+
+
+
+
+</style>

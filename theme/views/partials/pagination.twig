@@ -1,0 +1,65 @@
+<nav>
+    <ul class="flex justify-center">
+        {# First #}
+
+        {% if pagination.pages | first and pagination.pages | first.current != true %}
+            <li class="w-8 h-8 mx-1 flex justify-center items-center rounded-full border border-custom-blue text-custom-blue">
+                <a href="{{ pagination.pages | first.link }}"> << </a>
+            </li>
+        {% else %}
+            <li class="w-8 h-8 mx-1 flex justify-center items-center rounded-full border border-custom-blue text-custom-blue opacity-50">
+                <span> << </span>
+            </li>
+        {% endif %}
+
+        {# Previous #}
+
+        {% if pagination.prev %}
+            <li class="w-8 h-8 mx-1 flex justify-center items-center rounded-full border border-custom-blue text-custom-blue">
+                <a href="{{ pagination.prev.link }}"> < </a>
+            </li>
+        {% else %}
+            <li class="w-8 h-8 mx-1 flex justify-center items-center rounded-full border border-custom-blue text-custom-blue opacity-50">
+                <span> < </span>
+            </li>
+        {% endif %}
+
+        {# Pages #}
+
+        {% for page in pagination.pages %}
+            {% if page.link %}
+                <li class="w-8 h-8 mx-1 flex justify-center items-center rounded-full border border-custom-blue text-custom-blue">
+                    <a href="{{ page.link }}">{{ page.title }}</a>
+                </li>
+            {% else %}
+                <li class="w-8 h-8 mx-1 flex justify-center items-center rounded-full border border-custom-blue {{ page.title == '&hellip;' ? 'text-custom-blue' : 'text-white bg-custom-blue' }}">
+                    <span>{{ page.title }}</span>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {# Next #}
+
+        {% if pagination.next %}
+            <li class="w-8 h-8 mx-1 flex justify-center items-center rounded-full border border-custom-blue text-custom-blue">
+                <a href="{{ pagination.next.link }}"> > </a>
+            </li>
+        {% else %}
+            <li class="w-8 h-8 mx-1 flex justify-center items-center rounded-full border border-custom-blue text-custom-blue opacity-50">
+                <span> > </span>
+            </li>
+        {% endif %}
+
+        {# Last #}
+
+        {% if pagination.pages | last and pagination.pages | last.current != true %}
+            <li class="w-8 h-8 mx-1 flex justify-center items-center rounded-full border border-custom-blue text-custom-blue">
+                <a href="{{ pagination.pages | last.link }}"> >> </a>
+            </li>
+        {% else %}
+            <li class="w-8 h-8 mx-1 flex justify-center items-center rounded-full border border-custom-blue text-custom-blue opacity-50">
+                <span> >> </span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

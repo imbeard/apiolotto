@@ -1,0 +1,132 @@
+{% extends 'layouts/base.twig' %}
+
+{% block body %}
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-0 relative" x-data="fwslider()" x-init="fwsliderstart()" @resize.window="checkAlign()">
+		<div class="relative wallmain lg:pr-16">
+			<div class="flex justify-between px-4 lg:px-0">
+				<div>
+					<h4 class="mt-8">WALLPAPERS</h4>
+					<h4 class="text-custom-greylight"><a href="{{post.terms[0].link}}">{{post.terms[0].name}}</a></h4>
+				</div>
+				<div class="mt-8">
+					{% if post.meta('scheda_tecnica') %}
+						<a href="{{post.meta('scheda_tecnica')}}" target="_blank" class="flex items-center uppercase text-custom-greylight dl">
+							{{ options.label_scheda }}
+							<img src="{{theme.link}}/img/download.svg" class="svg w-6 ml-6" />
+						</a>
+					{% endif %}
+				</div>
+			</div>
+
+			<h1 style="color:{{post.terms[0].meta('colore')}}" class="mt-12 lg:mt-0 px-4 lg:px-0">{{ post.title }}</h1>
+
+			<div class="mb-24 px-4 lg:px-0">
+				{{ post.content }}
+			</div>
+
+
+			<div class="flex lg:hidden relative overflow-hidden">
+				<div class="w-full left-0">
+				    <div class="swiper h-full mySwiper" >
+				      <div class="swiper-wrapper">
+				      	{% for image in post.meta('gallery') %}
+							<div class="swiper-slide">
+								<img src="{{ Image(image).src }}" class="object-cover object-center h-full w-full" loading="lazy" />
+							</div>
+						{% endfor %}
+					   </div>
+					   <div class="swiper-pagination"></div>
+						<a class="pinterest" href="https://pinterest.com/pin/create/bookmarklet/?media={{Image(image).src}}&url={{paper.link}}&is_video=false&description={{paper.title}}" target="blank"><img src="{{theme.link}}/img/pinred.svg" class="absolute w-8 h-8 svg bottom-0 right-0 mb-2 pr-2 z-20" /></a>
+
+					</div>
+				</div>
+			</div>
+
+
+			{% if post.meta('varianti') %}
+				<div class="px-4 lg:px-0 mt-12 lg:mt-0">
+					<h4 class="uppercase mb-6">{{ options.label_varianti }}</h4>
+					<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+						{% for variante in  post.meta('varianti') %}
+							<div class="flex flex-col">
+								<img src="{{ Image(variante.immagine_variante_piccola).src }}" class="object-cover object-center h-full w-full aspect-square" loading="lazy" />
+								<span class="mt-2">{{ variante.nome_variante }}</span>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			{% endif %}
+			
+			{% if post.meta('carte_correlate') %}
+				<div class="mt-24 pb-16 px-4 lg:px-0">
+					<h4 class="uppercase mb-6">{{ options.label_correlati }}</h4>
+					<div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+						{% for cc in  post.meta('carte_correlate') %}
+							<div class="flex flex-col">
+								<a href="{{cc.link}}"><img src="{{ Image(cc.meta('gallery')[0]).src }}" class="object-cover object-center h-full w-full aspect-square" loading="lazy" /></a>
+								<a href="{{cc.link}}">{{ cc.title }}</a>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			{% endif %}
+
+		</div>
+		<div class="hidden lg:block overflow-hidden gallerywrapper fixed w-1/2 right-0 z-10">
+		    <div class="swiper h-full mySwiper" >
+		      <div class="swiper-wrapper">
+		      	{% for image in post.meta('gallery') %}
+					<div class="swiper-slide">
+						<img src="{{ Image(image).src }}" class="object-cover object-center h-full w-full" loading="lazy" />
+					</div>
+				{% endfor %}
+			   </div>
+			   <div class="swiper-pagination"></div>
+				<a class="pinterest" href="https://pinterest.com/pin/create/bookmarklet/?media={{Image(image).src}}&url={{paper.link}}&is_video=false&description={{paper.title}}" target="blank"><img src="{{theme.link}}/img/pinred.svg" class="absolute w-8 h-8 svg bottom-0 right-0 mb-2 pr-2 z-20" /></a>
+
+			</div>
+		</div>
+</div>
+
+<style>
+	.gallerywrapper{
+		height:calc(100vh - 72px);
+		top: 72px;
+	}
+	.dl svg path{
+		fill:#81817F;
+	}
+	.dl svg polygon{
+		fill:#81817F;
+	}
+
+</style>
+
+<script>
+    function fwslider() {
+        return {
+            fwsliderstart(){
+            	 this.checkAlign()
+                 let swiperInstance = new swiper('.mySwiper', {
+			        slidesPerView: 1,
+			        spaceBetween: 0,
+			        loop: true,
+			        pagination: {
+			          el: ".swiper-pagination",
+			          clickable: true,
+			        },
+			      });
+            },
+            checkAlign(){
+            	const mx = document.querySelector('.menuitems').getBoundingClientRect();
+            	if(window.innerWidth > 1023){
+            		document.querySelector('.wallmain').style.paddingLeft = mx.left +'px'
+            	}
+            	
+            }
+        }
+    }
+</script>
+
+{% endblock body %}

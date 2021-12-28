@@ -1,0 +1,97 @@
+{% extends 'layouts/base.twig' %}
+
+{% block body %}
+    <div class="container mx-auto px-4 py-8">
+    	<div class="hidden lg:block h-full w-8 fixed left-0 top-0 z-10" style="background-color:{{thiscat.meta('colore')}}"></div>
+    	<div class="grid grid-cols-12">
+    		<div class="col-span-6 lg:col-span-3">
+    			<div class="sticky ls">
+	    			<h4 class="uppercase">{{ options.label_linee }}</h4>
+	    			<ul class="text-custom-greylight">
+	    				{% for cat in wallpaperscats %}
+	    					<li><a class="hover:underline" href="{{cat.link}}" {% if cat.name == thiscat.name %}style="color:{{thiscat.meta('colore')}};"{% endif%}>{{ cat.name }}</a></li>
+	    				{% endfor %}
+	    			</ul>
+	    		</div>
+    		</div>
+
+    		<div class="flex justify-end lg:hidden col-span-6 dls">
+    			<ul class="text-custom-greylight">
+    				<a href="{{options.catalogo_generale}}" target="_blank" class=""><li class="uppercase flex items-center">{{ options.label_catalogo }}
+    				<img src="{{theme.link}}/img/download.svg" class="svg w-6 ml-6" />
+    				</li></a>
+    				<a href="/materials"><li class="flex items-center">MATERIALS <img src="{{theme.link}}/img/frecciadx.svg" class="svg w-6 ml-6" /></li></a>
+    			</ul>
+    		</div>
+
+    		<div class="col-span-12 lg:col-span-9 relative">
+    			<div class="topper">
+	    			<h1 class="mt-8 lg:mt-0" style="color:{{thiscat.meta('colore')}}">{{thiscat.name}}</h1>
+	    			<h2 class="mt-4 mb-8">{{ thiscat.meta('sottotitolo') }}</h2>
+	    			<p>
+	    				{{thiscat.description}}
+	    			</p>
+	    			{% if thiscat.meta('video_introduttivo') %}
+	    				<iframe src="{{thiscat.meta('video_introduttivo')}}" class="w-full" height="360" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+	    			{% endif %}
+	    		</div>
+	    		<div class="hidden lg:block dls absolute top-0 right-0">
+	    			<ul class="text-custom-greylight">
+	    				<a href="{{options.catalogo_generale}}" target="_blank" class=""><li class="uppercase flex items-center">{{ options.label_catalogo }}
+	    				<img src="{{theme.link}}/img/download.svg" class="svg w-6 ml-6" />
+	    				</li></a>
+	    				<a href="/materials"><li class="flex items-center">MATERIALS <img src="{{theme.link}}/img/frecciadx.svg" class="svg w-6 ml-6" /></li></a>
+	    			</ul>
+	    		</div>
+
+	    		<div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-24 mt-12">
+	    			{% for paper in papers %}
+	    				{% include "partials/paper.twig" with { paper: paper, index:loop.index,thiscat:thiscat } %}
+	    			{% endfor %}
+	    		</div>
+    		</div>
+    	</div>
+    </div>
+
+
+    <style>
+    	.topper{
+    		padding-right:22vw;
+    	}
+    	.topper h1{
+    		line-height:1;
+    	}
+    	.dls svg path{
+    		fill:#81817F;
+    	}
+    	.dls svg polygon{
+    		fill:#81817F;
+    	}
+    	.ls{
+    		top:112px;
+    	}
+    	@media(max-width: 1023px){
+    		.topper{padding-right:0;}
+    	}
+    </style>
+    <script>
+        function fwslider() {
+            return {
+                fwsliderstart(){
+
+                     let swiperInstance = new swiper(this.$el, {
+				        slidesPerView: 1,
+				        spaceBetween: 0,
+				        loop: true,
+				        pagination: {
+				          el: ".swiper-pagination",
+				          clickable: true,
+				        },
+				      });
+                },
+            }
+        }
+    </script>
+
+
+{% endblock body %}

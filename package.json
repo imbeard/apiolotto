@@ -1,0 +1,32 @@
+{
+  "name": "apiolotto",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "bootstrap": "wpackio-scripts bootstrap",
+    "build": "wpackio-scripts build",
+    "start": "TAILWIND_MODE=watch wpackio-scripts start",
+    "archive": "wpackio-scripts pack"
+  },
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.17.6",
+    "@wpackio/entrypoint": "^6.4.0",
+    "@wpackio/scripts": "^6.4.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.5",
+    "prettier": "^2.5.1",
+    "sass": "^1.45.1",
+    "tailwindcss": "^3.0.1"
+  },
+  "dependencies": {
+    "@alpinejs/collapse": "^3.7.1",
+    "@tailwindcss/forms": "^0.4.0",
+    "@tailwindcss/typography": "^0.5.0",
+    "alpinejs": "^3.7.1",
+    "curtainsjs": "^8.1.3",
+    "motion": "^10.4.0",
+    "smoothscroll-polyfill": "^0.4.4",
+    "swipe-listener": "^1.3.0",
+    "swiper": "6.0.2"
+  }
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="{{ site.charset }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="{{ site.description }}" />
+    <!--<script src="https://cdn.tailwindcss.com"></script> -->
+    {{ function('wp_head') }}
+
+  </head>
+  <body class="{{body_class}}">
+
+  <main id="realcontent" class="relative">
+      {% include 'partials/header.twig' %}
+    {% block body %}
+    {% endblock body %}
+
+    {% include 'partials/footer.twig' %}
+  </main>
+    
+
+
+    {{ function('wp_footer') }}
+
+
+
+  </body>
+  <div class="custom-cursor"></div>
+</html>

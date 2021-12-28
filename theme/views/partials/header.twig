@@ -1,0 +1,66 @@
+<header class="px-6 py-4 sticky top-0 bg-white z-30 border-b border-customgrey">
+    <div class="grid grid-cols-12">
+        <div class="col-span-4 flex justify-start">
+          <a href="{{site.url}}" class="uppercase sitetitle">
+            {{ options.nome_sito }}
+          </a>
+        </div>
+        <div class="col-start-9 col-span-4 justify-start items-center flex">
+          {% include "partials/menu.twig" with { menu: menu } %}
+        </div>
+
+    </div>
+</header>
+
+<div class="fullscreenMenu fixed top-0 left-0 bg-custom-greydark hidden w-full">
+  {% include "partials/hambmenu.twig" with { menu: hambmenu } %}
+</div>
+
+<script>
+    function menuController() {
+        return {
+            openMenu(){
+              document.querySelector('.hamb-container').classList.toggle('open');
+              document.querySelector('.menu').classList.toggle('open'); 
+              document.querySelector('header').classList.toggle('darkHeader'); 
+              document.querySelector('.fullscreenMenu').classList.toggle('hidden')   
+
+              const sequence = [
+                [".hambel", { y: [-30,0],opacity: [0,1] }, { duration: 0.5, delay: stagger(0.1) }]
+              ]
+              timeline(sequence,{ delay: 0.3 })
+            },
+        }
+    }
+</script>
+
+<style>
+  .fullscreenMenu{
+    height:calc(100vh - 73px);
+    top:73px;
+    z-index:9999;
+    background-image:url('{{theme.link}}/img/pattern.svg');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+  .darkHeader{
+    background:#2d2d2c;
+    border-bottom:1px #fff solid;
+  }
+  .darkHeader{
+    color:#fff;
+  }
+  .darkHeader svg path{
+    fill:#fff;
+  }
+  .darkHeader .hamb-container.open .hamb::before{
+    background:#fff;
+  }
+  .darkHeader .hamb-container.open .hamb::after{
+    background:#fff;
+  } 
+
+</style>
+
+

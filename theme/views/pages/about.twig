@@ -1,0 +1,58 @@
+{% extends 'layouts/base.twig' %}
+
+{% block body %}
+
+<div class="grid lg:grid-cols-2 divide-x divide-black gap-0 relative z-20">
+		<div class="flex flex-col">
+			<h4 class="block lg:hidden uppercase p-4">{{post.title}}</h4>
+			<div class="h-full logoanim px-4 lg:px-0">
+				
+			</div>
+			<div class="bg-custom-blacklight text-white items-center justify-center px-6 lg:px-12 py-16 lg:py-32 text-center mt-auto">
+				<h2>{{ post.meta('testo_in_basso_a_sinistra') }}</h2>
+			</div>
+		</div>
+		<div class="relative">
+			<div class="flex flex-col h-full justify-center items-center">
+				<div class="text-left p-6 lg:p-12">
+					<h4 class="hidden lg:block uppercase mb-24">{{post.title}}</h4>
+					<div>
+						{{ post.content }}
+					</div>
+				</div>
+
+			</div>
+		</div>
+</div>
+
+<style>
+	.logoanim{
+		min-height:80vh;
+	}
+	@media(max-width: 1023px){
+		.logoanim{
+			min-height:50vh;
+		}
+		
+	}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function (event) {
+  const logoAnimation = lottie.loadAnimation({
+    container: document.querySelector('.logoanim'),
+    renderer: 'svg',
+    loop: false,
+    autoplay: false,
+    path: context.themeLink + '/animations/logoanim.json',
+  });
+
+  setTimeout(function () {
+    logoAnimation.goToAndPlay(0);
+  }, 1450);
+ })
+</script>
+
+{% endblock body %}
+
+

@@ -1,0 +1,42 @@
+{
+  "app/assets/Cambon-Regular.woff": "app/assets/Cambon-Regular-a1242048.woff",
+  "app/assets/Cambon-Regular.woff2": "app/assets/Cambon-Regular-a1b6ae96.woff2",
+  "app/assets/FoundersGroteskLight.woff": "app/assets/FoundersGroteskLight-8b35a286.woff",
+  "app/assets/FoundersGroteskLight.woff2": "app/assets/FoundersGroteskLight-489f409b.woff2",
+  "app/main.js.map": "app/main.js.map",
+  "main.css": "app/main.css",
+  "main.css.map": "app/main.css.map",
+  "main.js": "app/main.js",
+  "main.js.map": "main.9c930dfc215a5870520b.hot-update.js.map",
+  "runtime.js": "app/runtime.js",
+  "runtime.js.map": "app/runtime.js.map",
+  "vendors~main.css": "app/vendors~main.css",
+  "vendors~main.css.map": "app/vendors~main.css.map",
+  "vendors~main.js": "app/vendors~main.js",
+  "vendors~main.js.map": "app/vendors~main.js.map",
+  "wpackioEp": {
+    "main": {
+      "assets": {
+        "js": [
+          "app/runtime.js",
+          "app/vendors~main.js",
+          "app/main.js"
+        ],
+        "js.map": [
+          "app/runtime.js.map",
+          "app/vendors~main.js.map",
+          "app/main.js.map",
+          "main.9c930dfc215a5870520b.hot-update.js.map"
+        ],
+        "css": [
+          "app/vendors~main.css",
+          "app/main.css"
+        ],
+        "css.map": [
+          "app/vendors~main.css.map",
+          "app/main.css.map"
+        ]
+      }
+    }
+  }
+}

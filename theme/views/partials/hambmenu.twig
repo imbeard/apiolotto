@@ -1,0 +1,70 @@
+{% if menu %} 
+  <div class="container mx-auto px-4 h-full">
+        <div class="hambmenu grid grid-cols-12 gap-0 h-full">
+            <ul class="w-full h-full flex flex-col items-end mt-8 lg:mt-0 justify-start lg:justify-center text-right col-span-12 lg:col-span-4 lg:col-start-9">
+                {% for item in menu.items %}
+                  <li class="hambel">
+                    {% if item.children %}
+                      <ul>
+                        {% for child in item.children %}
+                          <li>
+                            <a class="text-white" href="{{ child.link }}" {{ item.is_target_blank ? 'target="_blank"' }}>
+                              {{ child.title }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% else %}
+                      <a class="text-white {{ item.classes|join(' ') }}" href="{{ item.link }}" {{ item.is_target_blank ? 'target="_blank"' }}>
+                        {{ item.title }}
+                      </a>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+                  <li class="flex lg:hidden mobsoc mt-6 hambel">
+                    <span class="mr-2">
+                      <a href="{{options.link_instagram}}">
+                        <img src="{{theme.link}}/img/instagram.svg" class="svg w-6" />
+                      </a>
+                    </span>
+                    <span class="mr-2">
+                      <a href="{{options.link_pinterest}}">
+                        <img src="{{theme.link}}/img/pinterest.svg" class="svg w-6" />
+                      </a>
+                    </span>
+                    <span>
+                      <a href="{{options.link_vimeo}}">
+                        <img src="{{theme.link}}/img/vimeo.svg" class="svg w-6" />
+                      </a>
+                    </span>                    
+                  </li>
+            </ul>
+
+        </div>
+  </div>
+{% endif %}
+
+<style>
+  .hambmenu a{
+    font-size: 4.6875vw;
+    font-family: "Spezia";
+  }
+  .hambmenu a.little{
+    font-size: 2.395vw;
+  }
+  .hambmenu a:hover{
+    text-decoration:underline;
+  }
+  .mobsoc svg path{
+    fill:#fff;
+  }
+  @media(max-width: 1023px){
+      .hambmenu a{
+        font-size: 16vw;
+      }
+      .hambmenu a.little{
+        font-size: 6vw;
+      }
+
+  }
+</style>

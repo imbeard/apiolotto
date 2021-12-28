@@ -1,0 +1,16 @@
+node_modules
+package
+.DS_Store
+.idea
+*.iml
+*.log
+*.pid
+*.pid.lock
+*.seed
+*.tgz
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+.eslintcache
+.yarn-integrity

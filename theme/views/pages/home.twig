@@ -1,0 +1,175 @@
+{% extends 'layouts/base.twig' %} {% block body %}
+
+<div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 100)">
+	{% include 'partials/landing.twig' %}
+</div>
+
+<div class="sliderContainer overflow-hidden">
+	<div class="swiper h-full mySwiperNoFade" x-data="fwslider($el,0)" x-init="fwsliderstart($el)">
+		<div class="swiper-wrapper">
+			{% for slide in post.meta('slider') %}
+			<div class="swiper-slide relative">
+				<img
+					src="{{ Image(slide.slide.meta('immagine_per_slider')).src }}"
+					class="object-cover object-center h-full w-full"
+					loading="lazy"
+				/>
+				<div class="slideTitle">
+					<div class="flex">
+						<span class="mr-4">{}{{ slide.slide.terms[0].name }}</span>
+						<a href="{{slide.slide.link}}"><h3>{{slide.slide.title}}</h3></a>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+<div class="flex divide-x divide-customgrey px-6 contwrapper" id="archives">
+	<div class="flex-1 h-screen overflow-scroll scrollsec">
+		<div class="flex mb-24 mt-4">
+			<span class="mr-4 uppercase">[]{{ archivecats[1].name }}</span>
+			<h3>{{archivecats[1].description}}</h3>
+		</div>
+		<div class="grid lg:grid-cols-8 gap-12 pr-6">
+			{% set totimgs = 1 %} {% for archive in pt %} {% set totimgs = 1 %}
+			<div class="col-span-{{ random(3, 5) }} flex flex-col overflow-hidden" x-data="fwslider()">
+				{% if archive.meta('immagini')|length < 2 %}
+				<a href="{{archive.link}}"
+					><img
+						src="{{Image(archive.meta('immagini')[0]).src}}"
+						loading="lazy"
+						class="object-cover object-center w-full h-full"
+				/></a>
+				{% else %}
+				<div class="swiper h-full mySwiper{{loop.index}}" x-init="fwsliderstart($el,archpag{{loop.index}})">
+					<div class="swiper-wrapper">
+						{% for img in archive.meta('immagini') %} {% set totimgs = loop.length %}
+						<div class="swiper-slide relative">
+							<a href="{{archive.link}}">
+								<img src="{{ Image(img).src }}" class="object-cover object-center h-full w-full" loading="lazy" />
+							</a>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				{% endif %}
+				<h4 class="mt-2 flex">
+					<a href="{{archive.link}}">{{ archive.title }}</a>
+					{% if totimgs > 1 %}
+					<div class="cloned-pagination">(<span id="archpag{{loop.index}}">1</span>/{{totimgs}})</div>
+					{% endif %}
+				</h4>
+				<h5>{% for tag in archive.terms('tag_archivio') %} #{{ tag.name }} {% endfor %}</h5>
+			</div>
+			{% endfor %}
+		</div>
+		<div class="flex flex-col mt-16 mb-8 border-t border-customgrey mr-6 pt-6">
+			<h5 class="font-bold">[]PT _ TUTTI I RACCONTI</h5>
+		</div>
+		<div class="flex flex-col pb-8">
+			{% for term in ptterms %}
+			<div x-data="{ expanded{{loop.index}}: false }">
+				<h4 @click="expanded{{loop.index}} = ! expanded{{loop.index}}">#{{ term.name }} ({{term.group|length}})</h4>
+				<ul x-show="expanded{{loop.index}}" x-collapse class="mb-6 ml-6">
+					{% for post in term.group %}
+					<li>
+						<h4><a href="{{post.link}}">{{ post.title }}</a></h4>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="flex-1 h-screen overflow-scroll scrollsec">
+		<div class="pl-6 flex mb-24 mt-4">
+			<span class="mr-4 uppercase">[]{{ archivecats[0].name }}</span>
+			<h3>{{archivecats[0].description}}</h3>
+		</div>
+		<div class="grid lg:grid-cols-8 gap-12 pl-6">
+			{% for archive in cwf %}
+			<div class="col-span-{{ random(3, 5) }}">
+				<a href="{{archive.link}}"
+					><img
+						src="{{Image(archive.meta('immagini')[0]).src}}"
+						loading="lazy"
+						class="object-cover object-center w-full h-full"
+				/></a>
+				<h4 class="mt-2"><a href="{{archive.link}}">{{ archive.title }}</a></h4>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+<style>
+	.sliderContainer {
+		height: 87vh;
+	}
+	.slideTitle {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		left: 5%;
+		mix-blend-mode: difference;
+	}
+	.slideTitle span {
+		color: #fff;
+	}
+	.slideTitle h3 {
+		color: #fff;
+	}
+	.contwrapper .col-span-5 {
+		grid-column: span 5 / span 5;
+	}
+	.contwrapper .col-span-4 {
+		grid-column: span 4 / span 4;
+	}
+	.contwrapper .col-span-3 {
+		grid-column: span 3 / span 3;
+	}
+	.scrollsec {
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+		scrollbar-width: none; /* Firefox */
+	}
+	.scrollsec::-webkit-scrollbar {
+		display: none; /* Safari and Chrome */
+	}
+</style>
+
+<script>
+	function fwslider() {
+		return {
+			fwsliderstart(el, pagid) {
+				if (!this.$el.classList.contains('mySwiperNoFade')) {
+					let swiperInstance = new swiper(this.$el, {
+						effect: 'fade',
+						fadeEffect: {
+							crossFade: true,
+						},
+						slidesPerView: 1,
+						spaceBetween: 0,
+						loop: true,
+					});
+
+					swiperInstance.on('slideChange', function () {
+						pagid.innerHTML = swiperInstance.realIndex + 1;
+					});
+
+				} else {
+					let swiperInstance = new swiper(this.$el, {
+						slidesPerView: 1,
+						spaceBetween: 0,
+						loop: true,
+					});
+				}
+
+
+			},
+		};
+	}
+</script>
+
+{% endblock body %}

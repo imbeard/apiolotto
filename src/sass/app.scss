@@ -1,0 +1,220 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: none;
+}
+
+$mainblack:#2D2D2C;
+
+@font-face {
+    font-family: 'Cambon';
+    src: url('../fonts/Cambon-Regular.woff2') format('woff2'),
+        url('../fonts/Cambon-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Founders';
+    src: url('../fonts/FoundersGroteskLight.woff2') format('woff2'),
+        url('../fonts/FoundersGroteskLight.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body{
+  background: #fff;
+  font-family: 'Founders';
+  font-size:16px;
+  color:$mainblack;
+
+}
+
+h1{
+  font-family: "Cambon";
+  font-size: 2.77vw;
+  line-height: 3.61vw;
+  @media(max-width: 1023px){
+    font-size: 16vw;
+    line-height: 20vw;
+  }
+}
+
+h2{
+  font-family: "Cambon";
+  font-size: 2.39583vw;
+  line-height: 2.864vw;
+  @media(max-width: 1023px){
+    font-size: 6vw;
+    line-height: 7vw;
+  }
+
+}
+
+h3{
+  font-family: "Cambon";
+  font-size: 1.66vw;
+  line-height:2.15vw;
+}
+
+h4{
+  font-family: "Cambon";
+  font-size: 1.11vw;
+  line-height:1.25vw;  
+}
+h5{
+  font-family: "Founders";
+  font-size: 0.97vw;
+  line-height:1.25vw;  
+}
+
+a.sitetitle{
+  font-size: 1.66vw;
+}
+
+a.current_page_item{
+  opacity: 0.5;
+}
+
+a.cta{
+  font-size: 1.38vw;
+}
+
+.custom-cursor {
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #fff;
+  backface-visibility: hidden;
+  transition: transform 350ms ease;
+  transform: translate(-50%, -50%) scale(.3);
+  z-index: 9999;
+
+}
+.custom-cursor--link {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0.7 !important;
+}
+
+@media(max-width: 1023px){
+  .custom-cursor{
+    display: none;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: default;
+  }
+
+}
+
+.btn{
+  border:1px #000 solid;
+  padding:5px 20px;
+  text-transform: uppercase;
+  max-width:230px;
+  transition:background .3s ease-in;
+  @media(max-width: 1023px){
+    max-width: unset;
+  }
+}
+
+
+
+.hamb-container {
+  width: 20px;
+  height: 40px;
+  z-index: 1337;
+}
+
+.hamb {
+  position: relative;
+  width: 20px;
+  height: 2px;
+  background: $mainblack;
+  top: 50%;
+  transition: all .2s ease-in-out;
+  transform: translateY(-50%);
+}
+
+.hamb:before,
+.hamb:after {
+  position: absolute;
+  content: '';
+  width: 20px;
+  height: 2px;
+  transition: all .3s ease-in-out;
+  background: $mainblack;
+}
+
+.hamb:before {
+  top: -7px;
+}
+
+.hamb:after {
+  top: 7px;
+}
+
+.hamb-container:hover .hamb {
+  width: 15px;
+}
+
+.hamb-container:hover .hamb:after {
+  width: 10px;
+}
+
+.hamb-container.open .hamb {
+  background: transparent;
+}
+
+.hamb-container.open .hamb:before {
+  transform: rotate(-45deg);
+  top: 0;
+  width: 30px;
+}
+
+.hamb-container.open .hamb:after {
+  transform: rotate(45deg);
+  top: 0;
+  width: 30px;
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100%;
+  background: #222;
+  transition: all .3s ease-in-out;
+  transform: translateX(100%);
+}
+
+.slide {
+  transform: translateX(0);
+}
+
+.swiper-pagination-clickable .swiper-pagination-bullet{
+  cursor:none;
+}
+
+.swiper-pagination-bullet-active{
+  background:#fff;
+}
+
+.prose{
+  color:#000;
+  font-size: 1.21vw;
+  line-height: 1.45vw;
+}
+
+

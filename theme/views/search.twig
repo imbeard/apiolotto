@@ -1,0 +1,15 @@
+{% extends 'layouts/base.twig' %}
+
+{% block body %}
+  
+  {% for post in posts %}
+    
+  {% else %}
+    
+  {% endfor %}
+ 
+  {% if pagination.pages is not empty %}
+    {% include 'partials/pagination.twig' %}
+  {% endif %}
+
+{% endblock body %}

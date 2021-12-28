@@ -1,0 +1,100 @@
+{% extends 'layouts/base.twig' %}
+
+{% block body %}
+
+<div class="grid grid-cols-16 px-6 mt-8">
+	<div class="lg:col-span-10">
+		<div class="grid grid-cols-10">
+			<div class="lg:col-span-6">
+				<h3>{{ post.meta('sottotitolo') }}</h3>
+			</div>
+			<div class="lg-col-span-4">
+				<span class="uppercase">{{ post.meta('sottotitolo_2') }}</span>
+			</div>
+			<div class="lg:col-start-2 lg:col-end-9 prose mt-8">
+				{{ post.content }}
+			</div>
+
+		</div>
+	</div>
+
+	<div class="lg:col-span-5 flex flex-col justify-between">
+		<img
+			src="{{ Image(post.thumbnail).src }}"
+			class="object-cover object-center h-full w-full"
+			loading="lazy"
+			style="flex:3;"
+		/>
+		<div class="flex flex-1 items-end">
+			<a href="{{post.meta('link_acquisto')}}" target="_blank" class="cta underline hover:opacity-50 flex-1">
+				{{ post.meta('etichetta_link') }}
+			</a>
+		</div>
+	</div>
+
+</div>
+
+<div class="sliderContainer overflow-hidden mt-20">
+	<div class="swiper h-full mySwiperNoFade" x-data="fwslider()" x-init="fwsliderstart($el)">
+		<div class="swiper-wrapper">
+			{% for slide in post.meta('galleria') %}
+			<div class="swiper-slide relative">
+				<img
+					src="{{ Image(slide).src }}"
+					class="object-cover object-center h-full w-full"
+					loading="lazy"
+				/>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+<div class="grid grid-cols-16 px-6 mt-8 mb-16 gap-4">
+	<div class="lg:col-span-2">
+		<span class="uppercase" style="margin-top:-2px;">{{ post.meta('etichetta_acquista_in_libreria') }}</span>
+	</div>
+	<div class="col-span-14">
+		<div class="grid grid-cols-14 gap-10">
+			{% for lib in post.meta('librerie') %}
+				<div class="lg:col-span-2">
+					<div class="flex flex-col">
+						<h4>{{ lib.citta }}</h4>
+						<div>{{ lib.info }}</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+
+<script>
+	function fwslider() {
+		return {
+			fwsliderstart(el) {
+					let swiperInstance = new swiper(this.$el, {
+						slidesPerView: 2.1,
+						spaceBetween:15,
+						loop: true,
+					});
+
+
+			},
+		};
+	}
+</script>
+
+<style>
+.sliderContainer{
+	height:65vh;
+}
+.col-span-14{
+	grid-column: span 14 / span 14;
+}
+</style>
+
+
+{% endblock body %}
+
+
