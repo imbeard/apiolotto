@@ -4,16 +4,17 @@
   "app/assets/FoundersGroteskLight.woff": "app/assets/FoundersGroteskLight-8b35a286.woff",
   "app/assets/FoundersGroteskLight.woff2": "app/assets/FoundersGroteskLight-489f409b.woff2",
   "app/main.js.map": "app/main.js.map",
+  "app/vendors~main.js.map": "app/vendors~main.js.map",
   "main.css": "app/main.css",
   "main.css.map": "app/main.css.map",
   "main.js": "app/main.js",
-  "main.js.map": "main.9c930dfc215a5870520b.hot-update.js.map",
+  "main.js.map": "main.4c294d27359ab8c70469.hot-update.js.map",
   "runtime.js": "app/runtime.js",
   "runtime.js.map": "app/runtime.js.map",
   "vendors~main.css": "app/vendors~main.css",
   "vendors~main.css.map": "app/vendors~main.css.map",
   "vendors~main.js": "app/vendors~main.js",
-  "vendors~main.js.map": "app/vendors~main.js.map",
+  "vendors~main.js.map": "vendors~main.4c294d27359ab8c70469.hot-update.js.map",
   "wpackioEp": {
     "main": {
       "assets": {
@@ -25,8 +26,9 @@
         "js.map": [
           "app/runtime.js.map",
           "app/vendors~main.js.map",
+          "vendors~main.4c294d27359ab8c70469.hot-update.js.map",
           "app/main.js.map",
-          "main.9c930dfc215a5870520b.hot-update.js.map"
+          "main.4c294d27359ab8c70469.hot-update.js.map"
         ],
         "css": [
           "app/vendors~main.css",

@@ -14,7 +14,7 @@ module.exports = {
         'custom-blacklight': '#4a4a49',
         'custom-grey': '#A0A0A0',
         'custom-greylight' : '#81817F', 
-        'custom-superlight' : '#f0efef',
+        'custom-cream' : '#FFFFFA',
       },
       spacing: {
         '3/2': '150%',

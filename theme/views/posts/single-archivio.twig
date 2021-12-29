@@ -1,0 +1,87 @@
+{% extends 'layouts/base.twig' %}
+
+{% block body %}
+
+<div class="grid grid-cols-16 px-6 mt-8 bg-custom-cream">
+	<div class="lg:col-span-10">
+		<div class="grid grid-cols-10">
+			<div class="lg:col-span-6">
+				<h3>{{ post.title }}</h3>
+			</div>
+			<div class="lg:col-span-2 lg:col-start-7 flex items-center justify-between">
+				<span class="uppercase">[]{{ post.terms('categoria_archivio')[0] }}</span>
+				<span >{% for tag in post.terms('tag_archivio') %} #{{ tag.name }} {% endfor %}</span>
+			</div>
+			<div class="lg:col-span-8 lg:col-start-2 prose mt-8">
+				{{ post.content }}
+			</div>
+
+		</div>
+	</div>
+
+	<div class="lg:col-span-6 flex flex-col">
+		{% for image in post.meta('immagini') %}
+			<div class="flex flex-col mb-4 {% if loop.index is odd %} w-3/4 ml-auto {% else %} w-1/2 ml-0 {% endif %}">
+				<img
+					src="{{ Image(image).src }}"
+					class="object-cover object-center h-full "
+					loading="lazy"
+				/>
+				{% if image.caption %}
+					<div class="caption mt-2">{{ image.caption }}
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+
+</div>
+
+<div class="sliderContainer overflow-hidden mt-20">
+	<div class="swiper h-full mySwiperNoFade" x-data="fwslider()" x-init="fwsliderstart($el)">
+		<div class="swiper-wrapper">
+			{% for slide in post.meta('galleria') %}
+			<div class="swiper-slide relative">
+				<img
+					src="{{ Image(slide).src }}"
+					class="object-cover object-center h-full w-full"
+					loading="lazy"
+				/>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+
+
+
+<script>
+	function fwslider() {
+		return {
+			fwsliderstart(el) {
+					let swiperInstance = new swiper(this.$el, {
+						slidesPerView: 2.1,
+						spaceBetween:15,
+						loop: true,
+					});
+
+
+			},
+		};
+	}
+</script>
+
+<style>
+.sliderContainer{
+	height:65vh;
+}
+.caption{
+	font-size:0.83vw;
+	line-height:1.1vw;
+}
+.caption a{
+	text-decoration:underline;
+}
+</style>
+{% endblock body %}
+

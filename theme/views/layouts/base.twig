@@ -8,9 +8,17 @@
     {{ function('wp_head') }}
 
   </head>
-  <body class="{{body_class}}">
+  <body class="{{body_class}}" x-data="{ show: true }" :class="{ 'overflow-hidden': show }">
 
-  <main id="realcontent" class="relative">
+    {% if fn('is_front_page') %}
+        <div x-show="show" x-init="setTimeout(() => show = false, 100)">
+          {% include 'partials/landing.twig' %}
+        </div>
+        {% else %}
+        <div x-init="show = false"></div>
+    {% endif %}
+
+  <main id="realcontent" class="relative bg-custom-cream">
       {% include 'partials/header.twig' %}
     {% block body %}
     {% endblock body %}

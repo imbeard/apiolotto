@@ -14,11 +14,11 @@
 		</div>
 
 		<div class="alltags flex-1 relative">
-			<div class="grid lg:grid-cols-4 h-full">
+			<div class="grid lg:grid-cols-4 h-full px-6">
 				{% for tag in archivetags %}
 				<div class="flex relative h-full w-full tagwr order-{{ random(1, loop.length) }}">
 					<div class="absolute singletag opacity-0 mix-blend-difference text-white">
-						<h1 class="">#{{ tag.name }}</h1>
+						<h2 class="">#{{ tag.name }}</h2>
 					</div>
 				</div>
 				{% endfor %}

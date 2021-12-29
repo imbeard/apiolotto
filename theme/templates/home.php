@@ -17,7 +17,7 @@ $context['archivetags'] = array_slice($context['archivetags'], 0,12);
 
 $pt = Timber::get_posts([
     'post_type' => 'archivio',
-    'posts_per_page' => -1,
+    'posts_per_page' => 5,
     'order' => 'ASC',
     'tax_query' => array(
         array (
@@ -32,7 +32,7 @@ $context['pt'] = $pt;
 
 $cwf = Timber::get_posts([
     'post_type' => 'archivio',
-    'posts_per_page' => -1,
+    'posts_per_page' => 5,
     'order' => 'ASC',
     'tax_query' => array(
         array (
@@ -44,6 +44,22 @@ $cwf = Timber::get_posts([
 ]);
 
 $context['cwf'] = $cwf;
+
+$cwfall = Timber::get_posts([
+    'post_type' => 'archivio',
+    'posts_per_page' => -1,
+    'order' => 'ASC',
+    'tax_query' => array(
+        array (
+            'taxonomy' => 'categoria_archivio',
+            'field' => 'slug',
+            'terms' => 'cwf',
+        )
+    ),
+]);
+
+$context['cwfall'] = $cwfall;
+
 $context['archivecats'] = Timber::get_terms('categoria_archivio');
 
 $date_now = date('Y-m-d H:i:s');
